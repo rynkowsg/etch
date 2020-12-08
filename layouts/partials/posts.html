@@ -2,7 +2,7 @@
 <ul id="posts">
 {{- range where site.RegularPages "Type" "in" site.Params.mainSections }}
     <li>
-        <a href="{{ .Permalink }}">
+        <a href="{{ .RelPermalink }}">
             {{ .Title }}
             <small><time>{{ .Date.Format "Jan 2, 2006" }}</time></small>
         </a>
