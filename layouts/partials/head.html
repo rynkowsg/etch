@@ -6,7 +6,19 @@
         <meta name="description" content="{{ . }}">
     {{- end -}}
 
-    {{ printf `<link rel="shortcut icon" href="%s">` ("favicon.ico" | relURL) | safeHTML }}
+    <!-- Add favicon entries if the files exists -->
+    <!-- Files created based: https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs -->
+    {{ $favi1 := (dict "manifest.webmanifest" "manifest" ) -}}
+    {{ $favi2 := (dict "icon.svg" "icon" ) -}}
+    {{ $favi3 := (dict "favicon.ico" "alternate icon" ) -}}
+    {{ $favi4 := (dict "apple-touch-icon.png" "apple-touch-icon" ) -}}
+    {{ $favicon_links := $favi1 | merge $favi2 | merge $favi3 | merge $favi4 -}}
+    {{- range $file_name, $link_val := $favicon_links -}}
+        {{- $static_file := (path.Join "static" $file_name) -}}
+        {{- if (fileExists $static_file ) -}}
+            {{ printf `<link rel="%s" href="%s">` $link_val ($file_name | relURL) | safeHTML }}
+        {{- end }}
+    {{ end }}
 
     {{ with .OutputFormats.Get "rss" -}}
         {{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .RelPermalink $.Site.Title | safeHTML }}
