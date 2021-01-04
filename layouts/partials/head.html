@@ -28,5 +28,8 @@
     {{ $css := $resources | resources.Concat "css/style.css" | minify }}
     {{ printf `<link rel="stylesheet" href="%s">` $css.RelPermalink | safeHTML }}
 
+    <!-- Add GoogleAnalytics support -->
+    {{ partial "google_analytics.html" . }}
+
     <title>{{ .Title }}</title>
 </head>

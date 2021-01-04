@@ -1,0 +1,15 @@
+<!--
+All site-level configuration keys are stored as lower case.
+Therefore, a GoogleAnalytics key-value set in your site configuration
+file needs to be accessed with `if isset .Site.Params "googleanalytics"`
+and not with `if isset .Site.Params "GoogleAnalytics"`.
+-->
+{{- if isset .Site.Params "googleanalytics" -}}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ $.Site.GoogleAnalytics }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', "{{ $.Site.GoogleAnalytics }}");
+    </script>
+{{- end -}}
