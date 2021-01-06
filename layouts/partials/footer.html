@@ -1,3 +1,4 @@
 <footer id="footer">
-    {{ printf $.Site.Params.copyright ( string (now.Format "2006") )  }}
+    {{ $yearToken := (cond (isset .Site.Params (lower "copyrightYearToken")) $.Site.Params.copyrightYearToken ":YEAR:") }}
+    {{ replace $.Site.Params.copyright $yearToken (string (now.Format "2006")) }}
 </footer>
