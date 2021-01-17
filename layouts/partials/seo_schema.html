@@ -1,0 +1,25 @@
+<!-- https://developers.google.com/search/docs/guides/intro-structured-data -->
+<!-- https://github.com/spech66/hugo-best-practices#git-repository-and-ci-tools -->
+{{ $data := newScratch -}}
+{{ range .Site.Author }}{{ $data.Set "author" . }}{{ end -}}
+{{ $author := $data.Get "author" }}
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "name" : "{{ .Title }}",
+    "headline" : "{{ .Title }}",
+    "description" : "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}",
+    "inLanguage" : "{{ .Lang }}",
+    "author" : "{{ $author }}",
+    "creator" : "{{ $author }}",
+    "publisher": "{{ $author }}",
+    "accountablePerson" : "{{ $author }}",
+    "copyrightHolder" : "{{ $author }}",
+    "copyrightYear" : "{{ .Date.Format "2006" }}",
+    "datePublished": "{{ .Date | safeHTML }}",
+    "dateModified" : "{{ .Date | safeHTML }}",
+    "url" : "{{ .Permalink }}",
+    "wordCount" : "{{ .WordCount }}",
+    "keywords" : [{{ if isset .Params "tags" }}{{ range .Params.tags }}"{{ . }}",{{ end }}{{ end }}"Blog"]
+}
+</script>
